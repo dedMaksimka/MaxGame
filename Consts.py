@@ -1,6 +1,6 @@
 # Game Settings
 size = width, height = 500, 500
-fps = 50
+fps = 60
 alpha = 32
 jump_m = 40
 
