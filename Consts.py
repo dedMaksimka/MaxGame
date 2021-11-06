@@ -2,7 +2,7 @@
 size = width, height = 500, 500
 fps = 60
 alpha = 32
-jump_m = 40
+jump_m = 50
 
 # Player Settings
 player_h, player_w = 20, 20
