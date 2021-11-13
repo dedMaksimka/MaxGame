@@ -9,7 +9,7 @@ gravity = 15
 
 # Player Settings
 player_h, player_w = 20, 20
-player_step = 10
+player_step = 5
 player_jump_speed = -7
 jump_m = 50
 
