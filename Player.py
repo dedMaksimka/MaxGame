@@ -2,6 +2,7 @@ from Consts import *
 from game_objects import *
 import pygame
 
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__(all_sprites)
