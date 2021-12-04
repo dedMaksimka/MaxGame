@@ -3,6 +3,15 @@ from game_objects import *
 import pygame
 
 
+class Block(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__(all_sprites)
+        self.add(blocks_group)
+        self.image = pygame.Surface((block_w, block_h), pygame.SRCALPHA, alpha)
+        pygame.draw.rect(self.image, pygame.Color(platform_color), (0, 0, block_w, block_h))
+        self.rect = pygame.Rect(x, y, block_w, block_h)
+
+
 class Platform(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__(all_sprites)
@@ -28,6 +37,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image = pygame.Surface((player_w, player_h), pygame.SRCALPHA, alpha)
         pygame.draw.rect(self.image, pygame.Color(enemy_color), (0, 0, player_w, player_h))
         self.rect = pygame.Rect(x, y, player_w, player_h)
+        self.x = x
         self.v = 0
         self.speed = enemy_speed
 
@@ -40,11 +50,11 @@ class Enemy(pygame.sprite.Sprite):
             rect.y += self.v
             self.rect = rect
         rect = self.rect
-        rect.x += self.speed / fps
-        print(rect.x, width - enemy_w)
-        if rect.x > width - enemy_w:
+
+        self.x += self.speed / fps
+        # print(self.x, size[0] - enemy_w)
+        rect.x = self.x
+        if rect.x > size[0] - enemy_w or rect.x < 0 or pygame.sprite.spritecollideany(self, blocks_group):
             self.speed *= -1
-        elif rect.x < 0:
-            self.speed *= -1
-        print(self.speed, rect)
+        # print(self.speed, rect)
         self.rect = rect

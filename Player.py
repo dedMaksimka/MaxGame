@@ -14,7 +14,7 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         collide = (pygame.sprite.spritecollideany(self, platforms_group) or
-                   pygame.sprite.spritecollideany(self, st_group))
+                   pygame.sprite.spritecollideany(self, st_group) or pygame.sprite.spritecollideany(self, blocks_group))
         if collide:
             self.jumps = 0
         if not collide or self.v < 0:
@@ -22,9 +22,13 @@ class Player(pygame.sprite.Sprite):
             rect = self.rect
             rect.y += self.v
             self.rect = rect
+        if pygame.sprite.spritecollideany(self, enemies_group):
+            pygame.time.set_timer(LOSE_EVENT, 1)
+
 
     def move(self, x, y):
-        if y != 0 and pygame.sprite.spritecollideany(self, st_group) or y == 0:
+        if (y != 0 and pygame.sprite.spritecollideany(self, st_group) or y == 0 and
+            not pygame.sprite.spritecollideany(self, blocks_group)):
             self.rect = self.rect.move(x, y)
         self.update()
 

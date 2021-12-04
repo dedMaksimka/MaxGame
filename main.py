@@ -55,12 +55,16 @@ def generate_level(level):
                 Stair(x * side, y * side)
             elif level[y][x] == 'E':
                 Enemy(x * side, y * side)
+            elif level[y][x] == 'B':
+                Block(x * side, y * side)
 
 
 
 if __name__ == '__main__':
     level_map = load_level("Level1.txt")
-    size = width, height = len(level_map[0]) * side, len(level_map) * side
+    #size = width, height = len(level_map[0]) * side, len(level_map) * side
+    print(size)
+    update_size(len(level_map[0]), len(level_map))
     print(size)
     screen = pygame.display.set_mode(size)
     running = True
@@ -70,6 +74,9 @@ if __name__ == '__main__':
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                running = False
+            if event.type == LOSE_EVENT:
+                pygame.time.set_timer(LOSE_EVENT, 0)
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_dispatcher(event)
