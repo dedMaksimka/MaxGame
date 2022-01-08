@@ -5,7 +5,7 @@ import pygame
 
 class Block(pygame.sprite.Sprite):
     def __init__(self, x, y):
-        super().__init__(all_sprites)
+        super().__init__(all_sprites, all_groups)
         self.add(blocks_group)
         self.image = pygame.Surface((block_w, block_h), pygame.SRCALPHA, alpha)
         pygame.draw.rect(self.image, pygame.Color(platform_color), (0, 0, block_w, block_h))
@@ -14,7 +14,7 @@ class Block(pygame.sprite.Sprite):
 
 class Platform(pygame.sprite.Sprite):
     def __init__(self, x, y):
-        super().__init__(all_sprites)
+        super().__init__(all_sprites, all_groups)
         self.add(platforms_group)
         self.image = pygame.Surface((platform_w, platform_h), pygame.SRCALPHA, alpha)
         pygame.draw.rect(self.image, pygame.Color(platform_color), (0, 0, platform_w, platform_h))
@@ -23,8 +23,8 @@ class Platform(pygame.sprite.Sprite):
 
 class Stair(pygame.sprite.Sprite):
     def __init__(self, x, y):
-        super().__init__(all_sprites)
-        self.add(st_group)
+        super().__init__(all_sprites, all_groups)
+        self.add(stair_group)
         self.image = pygame.Surface((stair_w, stair_h), pygame.SRCALPHA, 32)
         pygame.draw.rect(self.image, pygame.Color(stair_color), (0, 0, stair_w, stair_h))
         self.rect = pygame.Rect(x, y, stair_w, stair_h)
@@ -42,8 +42,9 @@ class Enemy(pygame.sprite.Sprite):
         self.speed = enemy_speed
 
     def update(self):
-        collide = (pygame.sprite.spritecollideany(self, platforms_group) or
-                   pygame.sprite.spritecollideany(self, st_group))
+        collide = pygame.sprite.spritecollideany(self, all_groups)
+        if collide and self.rect.y - collide.rect.y < side - 1:
+            self.rect.y -= side - 1 + self.rect.y - collide.rect.y
         if not collide or self.v < 0:
             self.v += gravity / fps
             rect = self.rect

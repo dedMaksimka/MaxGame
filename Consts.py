@@ -1,5 +1,5 @@
 # Game Settings
-size = [500, 500]
+size = [800, 600]
 fps = 60
 alpha = 32
 side = 20

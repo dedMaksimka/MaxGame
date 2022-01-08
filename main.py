@@ -64,11 +64,12 @@ if __name__ == '__main__':
     level_map = load_level("Level1.txt")
     #size = width, height = len(level_map[0]) * side, len(level_map) * side
     print(size)
-    update_size(len(level_map[0]), len(level_map))
+    #update_size(len(level_map[0]), len(level_map))
     print(size)
     screen = pygame.display.set_mode(size)
     running = True
     clock = pygame.time.Clock()
+    camera = Camera()
     player = None
     generate_level(level_map)
     while running:
@@ -82,6 +83,9 @@ if __name__ == '__main__':
                 mouse_dispatcher(event)
             if event.type == pygame.KEYDOWN:
                 keyboard_dispatcher(event)
+        # camera.update(player)
+        # for sprite in all_sprites:
+        #     camera.apply(sprite)
         keyboard_move_dispatcher(pygame.key.get_pressed())
         screen.fill(pygame.Color(screen_color))
         all_sprites.draw(screen)

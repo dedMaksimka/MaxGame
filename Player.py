@@ -3,6 +3,22 @@ from game_objects import *
 import pygame
 
 
+def check_collision(obj):
+    collide = pygame.sprite.spritecollideany(obj, all_groups)
+    if not collide:
+        return
+    if obj.rect.y > collide.rect.y + 1:
+        obj.rect.y -= side - 1 + obj.rect.y - collide.rect.y
+        return
+    # if obj.rect.x > collide.rect.x + 1:
+    #     obj.rect.x -= side - 1 + obj.rect.x - collide.rect.x
+    #     return
+    # if obj.rect.x < collide.rect.x + 1:
+    #     obj.rect.x += side - 1 + obj.rect.x - collide.rect.x
+    #     return
+
+
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, x, y):
         super().__init__(all_sprites)
@@ -13,8 +29,9 @@ class Player(pygame.sprite.Sprite):
         self.jumps = 0
 
     def update(self):
-        collide = (pygame.sprite.spritecollideany(self, platforms_group) or
-                   pygame.sprite.spritecollideany(self, st_group) or pygame.sprite.spritecollideany(self, blocks_group))
+        collide = pygame.sprite.spritecollideany(self, all_groups)
+        if collide and self.rect.y - collide.rect.y < side - 1:
+            self.rect.y -= side - 1 + self.rect.y - collide.rect.y
         if collide:
             self.jumps = 0
         if not collide or self.v < 0:
@@ -25,10 +42,10 @@ class Player(pygame.sprite.Sprite):
         if pygame.sprite.spritecollideany(self, enemies_group):
             pygame.time.set_timer(LOSE_EVENT, 1)
 
-
     def move(self, x, y):
-        if (y != 0 and pygame.sprite.spritecollideany(self, st_group) or y == 0 and
-            not pygame.sprite.spritecollideany(self, blocks_group)):
+        t = pygame.sprite.spritecollideany(self, stair_group)
+        t2 = pygame.sprite.spritecollideany(self, blocks_group)
+        if (y != 0 and t or y == 0 and not t2):
             self.rect = self.rect.move(x, y)
         self.update()
 
