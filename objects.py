@@ -2,6 +2,32 @@ from Consts import *
 from game_objects import *
 import pygame
 
+class Arrow(pygame.sprite.Sprite):
+    def __init__(self, player):
+        super().__init__(all_sprites)
+        self.add(arrow_group)
+        self.image = pygame.Surface((arrow_w, arrow_h), pygame.SRCALPHA, alpha)
+        pygame.draw.rect(self.image, pygame.Color(arrow_color), (0, 0, arrow_w, arrow_h))
+        self.rect = pygame.Rect(player.rect.x + player_w // 2, player.rect.y + player_h // 2, arrow_w, arrow_h)
+        self.v = 0
+        self.x = player.rect.x + player_w // 2
+        self.speed = arrow_speed
+        self.course = player.course
+
+    def update(self):
+        enemy = pygame.sprite.spritecollideany(self, enemies_group)
+        collide = pygame.sprite.spritecollideany(self, all_groups)
+        if enemy:
+            enemy.shoot()
+            self.kill()
+        elif collide:
+            self.kill()
+        else:
+            rect = self.rect
+            self.x += self.course * self.speed / fps
+            rect.x = self.x
+            self.rect = rect
+
 
 class Block(pygame.sprite.Sprite):
     def __init__(self, x, y):
@@ -40,16 +66,25 @@ class Enemy(pygame.sprite.Sprite):
         self.x = x
         self.v = 0
         self.speed = enemy_speed
+        self.hp = enemy_hp
+
+    def shoot(self):
+        self.hp -= 100
+        if self.hp <= 0:
+            self.kill()
 
     def update(self):
         collide = pygame.sprite.spritecollideany(self, all_groups)
-        if collide and self.rect.y - collide.rect.y < side - 1:
-            self.rect.y -= side - 1 + self.rect.y - collide.rect.y
+        # if collide and self.rect.y - collide.rect.y < side - 1:
+        #     self.rect.y -= side - 1 + self.rect.y - collide.rect.y
         if not collide or self.v < 0:
             self.v += gravity / fps
             rect = self.rect
             rect.y += self.v
             self.rect = rect
+
+
+
         rect = self.rect
 
         self.x += self.speed / fps

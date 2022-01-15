@@ -27,11 +27,12 @@ class Player(pygame.sprite.Sprite):
         self.rect = pygame.Rect(x, y, player_w, player_h)
         self.v = 0
         self.jumps = 0
+        self.course = 1
 
     def update(self):
         collide = pygame.sprite.spritecollideany(self, all_groups)
-        if collide and self.rect.y - collide.rect.y < side - 1:
-            self.rect.y -= side - 1 + self.rect.y - collide.rect.y
+        # if collide and self.rect.y - collide.rect.y < side - 1:
+        #     self.rect.y -= side - 1 + self.rect.y - collide.rect.y
         if collide:
             self.jumps = 0
         if not collide or self.v < 0:

@@ -7,8 +7,10 @@ import pygame
 def keyboard_move_dispatcher(keys):
     if keys[pygame.K_RIGHT]:
         player.move(player_step, 0)
+        player.course = 1
     if keys[pygame.K_LEFT]:
         player.move(-player_step, 0)
+        player.course = -1
     if keys[pygame.K_UP]:
         player.move(0, -player_step)
     if keys[pygame.K_DOWN]:
@@ -17,6 +19,8 @@ def keyboard_move_dispatcher(keys):
 def keyboard_dispatcher(event):
     if event.key == pygame.K_SPACE:
         player.jump()
+    if event.key == pygame.K_s:
+        Arrow(player)
     # if event.key == pygame.K_RIGHT and event.key == pygame.K_SPACE:
     #     player.jump(player_h, jump_m)
     # if event.key == pygame.K_LEFT and event.key == pygame.K_SPACE:
