@@ -1,6 +1,7 @@
 from Consts import *
 from game_objects import *
 import pygame
+from AnimatedSprite import AnimatedSprite
 
 
 def check_collision(obj):
@@ -18,18 +19,18 @@ def check_collision(obj):
     #     return
 
 
-
-class Player(pygame.sprite.Sprite):
+class Player(AnimatedSprite):
     def __init__(self, x, y):
-        super().__init__(all_sprites)
-        self.image = pygame.Surface((player_w, player_h), pygame.SRCALPHA, alpha)
-        pygame.draw.rect(self.image, pygame.Color(player_color), (0, 0, player_w, player_h))
+        super().__init__(load_image("images/hero/idle.jpg", -1), 4, 1, player_w, player_h)
+        #self.image = pygame.Surface((player_w, player_h), pygame.SRCALPHA, alpha)
+        #pygame.draw.rect(self.image, pygame.Color(player_color), (0, 0, 50, 50))
         self.rect = pygame.Rect(x, y, player_w, player_h)
         self.v = 0
         self.jumps = 0
         self.course = 1
 
     def update(self):
+        super(Player, self).update()
         collide = pygame.sprite.spritecollideany(self, all_groups)
         # if collide and self.rect.y - collide.rect.y < side - 1:
         #     self.rect.y -= side - 1 + self.rect.y - collide.rect.y

@@ -2,12 +2,22 @@ from Consts import *
 from game_objects import *
 import pygame
 
+
+class Fone(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__(all_sprites)
+        self.image = load_image("images/fone.png")
+        self.rect = self.image.get_rect()
+        self.rect.top = 0
+        self.rect.left = 0
+
+
 class Arrow(pygame.sprite.Sprite):
     def __init__(self, player):
         super().__init__(all_sprites)
         self.add(arrow_group)
         self.image = pygame.Surface((arrow_w, arrow_h), pygame.SRCALPHA, alpha)
-        pygame.draw.rect(self.image, pygame.Color(arrow_color), (0, 0, arrow_w, arrow_h))
+        self.image = load_image("images/arrow.png")
         self.rect = pygame.Rect(player.rect.x + player_w // 2, player.rect.y + player_h // 2, arrow_w, arrow_h)
         self.v = 0
         self.x = player.rect.x + player_w // 2
@@ -77,20 +87,12 @@ class Enemy(pygame.sprite.Sprite):
         collide = pygame.sprite.spritecollideany(self, all_groups)
         # if collide and self.rect.y - collide.rect.y < side - 1:
         #     self.rect.y -= side - 1 + self.rect.y - collide.rect.y
+        rect = self.rect
         if not collide or self.v < 0:
             self.v += gravity / fps
-            rect = self.rect
             rect.y += self.v
-            self.rect = rect
-
-
-
-        rect = self.rect
-
         self.x += self.speed / fps
-        # print(self.x, size[0] - enemy_w)
         rect.x = self.x
         if rect.x > size[0] - enemy_w or rect.x < 0 or pygame.sprite.spritecollideany(self, blocks_group):
             self.speed *= -1
-        # print(self.speed, rect)
         self.rect = rect

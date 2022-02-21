@@ -49,6 +49,7 @@ def load_level(filename):
 
 def generate_level(level):
     global player
+    Fone()
     for y in range(len(level)):
         for x in range(len(level[y])):
             if level[y][x] == '#':
@@ -63,7 +64,6 @@ def generate_level(level):
                 Block(x * side, y * side)
 
 
-
 if __name__ == '__main__':
     level_map = load_level("Level1.txt")
     #size = width, height = len(level_map[0]) * side, len(level_map) * side
@@ -76,6 +76,7 @@ if __name__ == '__main__':
     camera = Camera()
     player = None
     generate_level(level_map)
+    platforms_group.draw(screen)
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -87,9 +88,11 @@ if __name__ == '__main__':
                 mouse_dispatcher(event)
             if event.type == pygame.KEYDOWN:
                 keyboard_dispatcher(event)
-        # camera.update(player)
-        # for sprite in all_sprites:
-        #     camera.apply(sprite)
+
+        camera.update(player)
+        for sprite in all_sprites:
+            camera.apply(sprite)
+
         keyboard_move_dispatcher(pygame.key.get_pressed())
         screen.fill(pygame.Color(screen_color))
         all_sprites.draw(screen)

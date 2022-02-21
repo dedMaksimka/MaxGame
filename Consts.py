@@ -1,5 +1,5 @@
 # Game Settings
-size = [800, 600]
+size = [1280, 1024]
 fps = 60
 alpha = 32
 side = 20
@@ -13,7 +13,7 @@ def update_size(count_w, count_h):
 gravity = 15
 
 # Player Settings
-player_h, player_w = side, side
+player_h, player_w = 48, 48
 player_step = 5
 player_jump_speed = -7
 jump_m = 50
@@ -27,13 +27,13 @@ enemy_hp = 300
 platform_h, platform_w = side, side
 stair_h, stair_w = side, side
 block_h, block_w = side, side
-arrow_h, arrow_w = mini_side, mini_side
+arrow_h, arrow_w = 5, 50
 arrow_speed = 200
 
 # Colors
 stair_color = 'red'
 screen_color = 'black'
-platform_color = 'grey'
+platform_color = 'black'
 player_color = 'blue'
 enemy_color = 'yellow'
 arrow_color = 'green'
